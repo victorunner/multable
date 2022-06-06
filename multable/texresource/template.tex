@@ -1,0 +1,72 @@
+%\documentclass[border=2mm]{standalone}
+\documentclass[class=scrreprt, fontsize=9pt, pagesize=off, paper=a4]{standalone}
+
+\usepackage{pythontex}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{churchslavonic}
+\setotherlanguages{english}
+\usepackage{churchslavonic}
+\newfontfamily\churchslavonicfont[Script=Cyrillic,Ligatures=TeX]{PonomarUnicode.otf}
+
+
+\begin{document}
+
+\input{import_input.tex}
+
+\begin{tikzpicture}
+[
+square matrix/.style={
+    matrix of nodes,
+    column sep=-\pgflinewidth,
+    row sep=-\pgflinewidth,
+    nodes in empty cells,
+    nodes={
+        draw,
+        rectangle,
+        minimum size=8mm,
+        anchor=center,
+        align=center,
+        inner sep=0pt
+    },
+    column 1/.style={nodes={fill=cyan!30}},
+    row 1/.style={nodes={fill=cyan!30}},
+  }
+]
+
+\begin{pycode}
+def print_slavonic_number(number, include_arabic_number=True):
+    s = rf'\cuNum{{{number}}}'
+
+    if include_arabic_number:
+      s += rf'\textsubscript{{{number}}}'
+
+    print(s)
+
+MAX_NUMBER = input_params.max_number
+SHOW_ARABIC = input_params.show_arabic
+
+print(r'\matrix[square matrix] {')
+for row in range(MAX_NUMBER + 1):
+    for col in range(MAX_NUMBER + 1):
+        if (row, col) != (0, 0):
+            if row and col:
+                val = row*col
+            else:
+                val = row + col
+            print_slavonic_number(val, SHOW_ARABIC)
+
+        if col != MAX_NUMBER:
+            print('&')
+    print(r'\\')
+print(r'};')
+\end{pycode}
+\end{tikzpicture}
+
+\end{document}
