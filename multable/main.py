@@ -43,6 +43,9 @@ def cli(args: Optional[list[str]] = None) -> None:
     )
     args_model = parser.parse_typed_args(args)
     verbose = args_model.verbose
+    output_file_path = args_model.output
+    if output_file_path is None:
+        verbose = False
     args_as_json = args_model.json()
 
     argparse_model_path = pathlib.Path(__file__).parent / 'argparse_model.py'
@@ -100,10 +103,13 @@ def cli(args: Optional[list[str]] = None) -> None:
         )
 
         result_pdf_path = tmpdir_path / 'template.pdf'
-        shutil.copy(result_pdf_path, '/home/victor/Dev/tmp')
 
-        pass
-        # https://stackoverflow.com/questions/66346181/write-files-outside-of-a-docker-container-via-python
+        if output_file_path is None:
+            with open(result_pdf_path, 'rb') as f:
+                # sys.stdout.buffer.write(f.read())  # noqa: E800
+                shutil.copyfileobj(f, sys.stdout.buffer)   # coping in chunks
+        else:
+            shutil.copy2(result_pdf_path, output_file_path)
 
 
 if __name__ == '__main__':

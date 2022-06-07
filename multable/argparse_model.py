@@ -1,4 +1,6 @@
 import enum
+from pathlib import Path
+from typing import Optional
 
 import pydantic
 
@@ -13,5 +15,10 @@ class Arguments(pydantic.BaseModel):
     show_arabic: bool = pydantic.Field(
         True, description='show arabic transcript for nonarabic numbers'
     )
-    language: Language = pydantic.Field(Language.ARABIC, description='language')
+    language: Language = pydantic.Field(
+        Language.ARABIC, description='language'
+    )
     verbose: bool = pydantic.Field(False, description='verbose output')
+    output: Optional[Path] = pydantic.Field(
+        description='output PDF file, ommiting means STDOUT'
+    )
