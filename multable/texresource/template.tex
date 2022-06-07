@@ -49,8 +49,10 @@ def print_slavonic_number(number, include_arabic_number=True):
 
     print(s)
 
-MAX_NUMBER = input_params.max_number
-SHOW_ARABIC = input_params.show_arabic
+MAX_NUMBER = input_params['max_number']
+SHOW_ARABIC = input_params['show_arabic']
+LANGUAGE = input_params['language']
+
 
 print(r'\matrix[square matrix] {')
 for row in range(MAX_NUMBER + 1):
@@ -60,7 +62,11 @@ for row in range(MAX_NUMBER + 1):
                 val = row*col
             else:
                 val = row + col
-            print_slavonic_number(val, SHOW_ARABIC)
+
+            if LANGUAGE == 'ARABIC':
+                print(val)
+            else:
+                print_slavonic_number(val, SHOW_ARABIC)
 
         if col != MAX_NUMBER:
             print('&')

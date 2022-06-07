@@ -1,13 +1,13 @@
-import enum
+from enum import Enum
 from pathlib import Path
 from typing import Optional
 
 import pydantic
 
 
-class Language(enum.Enum):
-    ARABIC = enum.auto()
-    SLAVIC = enum.auto()
+class Language(str, Enum):
+    ARABIC = 'ARABIC'
+    SLAVIC = 'SLAVIC'
 
 
 class Arguments(pydantic.BaseModel):
@@ -22,3 +22,6 @@ class Arguments(pydantic.BaseModel):
     output: Optional[Path] = pydantic.Field(
         description='output PDF file, ommiting means STDOUT'
     )
+
+    class Config:
+        use_enum_values = True

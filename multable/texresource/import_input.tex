@@ -4,6 +4,6 @@ import pathlib
 
 from argparse_model import Arguments
 
-input_params = Arguments.parse_file(pathlib.Path.cwd() / 'input.json')
+input_params = Arguments.parse_file(pathlib.Path.cwd() / 'input.json').dict()
 
 \end{pythontexcustomcode}
