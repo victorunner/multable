@@ -56,7 +56,7 @@ def cli(args: Optional[list[str]] = None) -> None:
 
     texresource_path = pathlib.Path(texresource_spec.origin).parent
     template_tex_path = texresource_path / 'template.tex'
-    import_input_tex_path = texresource_path / 'import_input.tex'
+    import_input_tex_path = texresource_path / 'importinput.tex'
 
     with tempfile.TemporaryDirectory() as tmpdir_path_str:
         tmpdir_path = pathlib.Path(tmpdir_path_str)
@@ -82,7 +82,7 @@ def cli(args: Optional[list[str]] = None) -> None:
         )
 
         run_cmd(
-            ['pythontex', 'template.tex'],
+            ['pythontex', '--interpreter', 'python:python', 'template.tex'],
             cwd=tmpdir_path_str,
             cmd_description='pythontex',
             verbose_output=verbose,
